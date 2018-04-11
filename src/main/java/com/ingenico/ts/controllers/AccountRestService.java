@@ -20,11 +20,15 @@ import java.net.URI;
 @RequestMapping("/accounts/v1")
 public class AccountRestService {
 
-    @Autowired
     private AccountService accountService;
+    private Validator validator;
 
     @Autowired
-    private Validator validator;
+    private AccountRestService(final AccountService accountService, final Validator validator){
+        this.accountService = accountService;
+        this.validator = validator;
+    }
+
 
     /**
      * Method provides list of all available account

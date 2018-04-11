@@ -2,6 +2,8 @@ package com.ingenico.ts.exceptions;
 
 import com.ingenico.ts.utils.Constants;
 import com.ingenico.ts.utils.Error;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
  */
 @ControllerAdvice
 public class RestExceptionHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestExceptionHandler.class);
 
     @Autowired
     private Error error;
@@ -56,10 +60,13 @@ public class RestExceptionHandler {
         error.setMessage(e.getErrorMessage());
         error.setCode(e.getErrorCode());
 
-        if(e.getErrorCode().equals(Constants.ACCOUNT_NOT_FOUND)){
+        if(e.getErrorCode().equals(Constants.ACCOUNT_NOT_FOUND) || e.getErrorCode().equalsIgnoreCase(Constants.INITIATING_PARTY_ACCOUNT_NOT_FOUND
+        )||e.getErrorCode().equalsIgnoreCase(Constants.COUNTER_PARTY_ACCOUNT_NOT_FOUND)){
+            LOGGER.info("HTTP 404 Resource Not found", e);
             return new ResponseEntity<Error>(error, HttpStatus.NOT_FOUND);
         }
         else if(e.getErrorCode().equals(Constants.ACCOUNT_NAME_ALREADY_PRESENT)){
+            LOGGER.info("HTTP 409 with the name, already present", e);
             return new ResponseEntity<Error>(error, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<com.ingenico.ts.utils.Error>(error, HttpStatus.BAD_REQUEST);
@@ -82,8 +89,7 @@ public class RestExceptionHandler {
                     error.setMessage(errorMap.get(x.getDefaultMessage()));
                     return error;
                 }).findAny();
-//        LOGGER.info("HTTP 400 Bad Request", e);
-
+        LOGGER.info("HTTP 400 Bad Request", e);
         return new ResponseEntity<Error>(err.get(), HttpStatus.BAD_REQUEST);
     }
 
@@ -99,6 +105,7 @@ public class RestExceptionHandler {
 
         final String str = e.getConstraintViolations().stream().map(m ->m.getMessage() +":"+m.getPropertyPath()).collect(Collectors.joining(";"));
         error.setMessage(str);
+        LOGGER.info("HTTP 400 Bad Request", e);
         return new ResponseEntity<com.ingenico.ts.utils.Error>(error, HttpStatus.BAD_REQUEST);
     }
 }

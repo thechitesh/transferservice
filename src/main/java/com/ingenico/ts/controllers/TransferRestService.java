@@ -5,6 +5,7 @@ import com.ingenico.ts.resources.Transfer;
 import com.ingenico.ts.exceptions.AccountException;
 import com.ingenico.ts.resources.TransferStatus;
 import com.ingenico.ts.services.AccountService;
+import com.ingenico.ts.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,14 @@ import javax.validation.Valid;
 @RequestMapping("/initiatetransfer")
 public class TransferRestService {
 
-    @Autowired
     private AccountService accountService;
+    private Validator validator;
+
+    @Autowired
+    private TransferRestService(final AccountService accountService, final Validator validator){
+        this.accountService = accountService;
+        this.validator = validator;
+    }
 
     /**
      * Method takes the valid transfer request resource and forwards it to the servie for execution
@@ -31,7 +38,7 @@ public class TransferRestService {
      */
     @PostMapping(value = "/v1")
     public ResponseEntity initiateTransfer(@RequestBody @Valid Transfer transfer) throws AccountException {
-
+        validator.validateTransferObject(transfer);
         accountService.executeTransfer(transfer);
         ResponseWrapper responseWrapper = new ResponseWrapper();
         responseWrapper.setTransferStatus(TransferStatus.EXECUTED);

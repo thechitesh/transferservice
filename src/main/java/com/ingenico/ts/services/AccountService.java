@@ -21,12 +21,14 @@ import java.util.Optional;
 @Service
 public class AccountService {
 
-    @Autowired
     private AccountRepository accountRepository;
-
-    @Autowired
     private Validator validator;
 
+    @Autowired
+    private AccountService(final AccountRepository accountRepository, final Validator validator){
+        this.accountRepository = accountRepository;
+        this.validator = validator;
+    }
 
     /**
      * Method used to create an Account in database.

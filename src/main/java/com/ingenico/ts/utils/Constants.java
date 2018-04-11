@@ -31,5 +31,7 @@ public final class Constants {
 
     public static final String ACCOUNT_NOT_FOUND = "TS_0013";
 
+    public static final String TRANSFER_ACCOUNTS_SHOULD_BE_DIFFERENT = "TS_0014";
+
 
 }

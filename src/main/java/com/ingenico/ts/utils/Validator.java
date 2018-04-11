@@ -2,6 +2,7 @@ package com.ingenico.ts.utils;
 
 import com.ingenico.ts.exceptions.AccountException;
 import com.ingenico.ts.resources.Account;
+import com.ingenico.ts.resources.Transfer;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,17 @@ public class Validator {
             throw new AccountException("Invalid Id is supplied", Constants.ID_IN_PATH_PARAM_SHOULD_BE_NUMERIC);
         }
 
+    }
+
+    /**
+     * Method used to validate that the accounts involved in transfer should be different.
+     * @param transfer - transfere request resource
+     * @throws AccountException - application exception
+     */
+    public void validateTransferObject(final Transfer transfer) throws AccountException {
+        if(transfer.getInitiatingAccountName().equalsIgnoreCase(transfer.getCounterPartyAccountName())){
+            throw new AccountException("Transfer can be initiated between different accounts", Constants.TRANSFER_ACCOUNTS_SHOULD_BE_DIFFERENT);
+        }
     }
 
     /**
