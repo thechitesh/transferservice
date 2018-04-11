@@ -1,13 +1,19 @@
 package com.ingenico.ts.resources;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ingenico.ts.utils.Constants;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 
+/**
+ * Account Resource for the Transfer Service Application
+ */
 @Entity
-
 public class Account {
 
     @Id
@@ -15,10 +21,11 @@ public class Account {
     private int id;
 
     @Column(unique = true)
-    @NotNull
+    @NotNull(message = Constants.ACCOUNT_NAME_SHOULD_BE_FILLED)
     private String name;
 
-    @NotNull(message = "Balance can not be null")
+    @NotNull(message = Constants.BALANCE_NOT_NULL)
+    @Range(min=0, max=99999,message = Constants.BALANCE_SHOULE_SHOULD_BE_POSITIVE)
     private BigDecimal balance;
 
     public String getName() {

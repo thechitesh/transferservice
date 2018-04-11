@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+/**
+ * Spring Boot Transfer Service Application Class
+ */
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "com.ingenico.ts")
@@ -15,6 +18,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class TransferServiceApplication {
 
 
+    /**
+     * Main method to kick starts Spring Boot applition
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(TransferServiceApplication.class,args);
     }

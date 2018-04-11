@@ -1,0 +1,165 @@
+swagger: "2.0"
+info:
+  description: "This document explains the webservice available for Transfer Service Application. "
+  version: "1.0.0"
+  title: "Transfer Service"
+host: "com.ingenico.ts"
+basePath: "/v1"
+tags:
+- name: "accounts"
+  description: "Accouts service"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+    
+- name: "transer"
+  description: "Access to Petstore orders"
+  
+schemes:
+- "http"
+paths:
+  /accounts:
+    post:
+      tags:
+      - "accounts"
+      summary: "Add new account in the DB."
+      description: ""
+      operationId: "createAccount"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Account to be created"
+        required: true
+        schema:
+          $ref: "#/definitions/Account"
+      responses:
+        201:
+          description: "Account Created"
+          schema:
+            $ref: '#/definitions/AccountResponse'
+        400:
+          description: "Invalid parameter in the request body"
+          schema:
+            $ref: '#/definitions/Error'
+        409:
+          description: "Account Name already exists"
+          schema:
+            $ref: '#/definitions/Error'
+      
+      
+    
+  
+  /accounts/{id}:
+    get:
+      tags:
+      - "accounts"
+      summary: "Find Account by ID"
+      description: "Returns a single Account"
+      operationId: "getAccountById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of Account to return"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Account"
+        400:
+          description: "Invalid ID supplied"
+          schema:
+            $ref: '#/definitions/Error'
+      
+        404:
+          description: "Account not found"
+          schema:
+            $ref: '#/definitions/Error'
+      
+  
+  /initiatetransfer:
+    post:
+      tags:
+      - "transer"
+      summary: "Add new account in the DB."
+      description: ""
+      operationId: "initiateTransfer"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "amount transfer request body"
+        required: true
+        schema:
+          $ref: "#/definitions/Transfer"
+      responses:
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: "Account not found"
+          schema:
+            $ref: '#/definitions/Error'
+      
+  
+definitions:
+  Account:
+    type: "object"
+    required:
+    - "name"
+    - "balance"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+        example: "foo_account"
+      balance:
+        type: "number"
+        format: "double"
+
+        
+  Transfer:
+    type: "object"
+    required:
+    - "initiatingPartyAccountName"
+    - "counterPartyAccountName"
+    - "amount"
+    properties:
+      initiatingPartyAccountName:
+        type: "string"
+        example: "foo_account"
+      counterPartyAccountName:
+        type: "string"
+        example: "bar_account"
+      amount:
+        type: "number"
+        format: "double"
+  Error:
+    type: object
+    properties:
+      code:
+        type: "number"
+      message:
+        type: "string"
+
+  AccountResponse:
+    type: object
+    properties:
+      id:
+        type: "number"
+        description: "Id of created resource"
+      
+          
+      
