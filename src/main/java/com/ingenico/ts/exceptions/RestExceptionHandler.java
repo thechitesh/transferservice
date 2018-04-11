@@ -59,6 +59,9 @@ public class RestExceptionHandler {
         if(e.getErrorCode().equals(Constants.ACCOUNT_NOT_FOUND)){
             return new ResponseEntity<Error>(error, HttpStatus.NOT_FOUND);
         }
+        else if(e.getErrorCode().equals(Constants.ACCOUNT_NAME_ALREADY_PRESENT)){
+            return new ResponseEntity<Error>(error, HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<com.ingenico.ts.utils.Error>(error, HttpStatus.BAD_REQUEST);
     }
 
