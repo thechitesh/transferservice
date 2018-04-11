@@ -1,8 +1,12 @@
 package com.ingenico.ts.utils;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
+
 /**
  * Class defines the error response.
  */
+@Component
 public class Error {
 
 

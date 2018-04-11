@@ -24,6 +24,9 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class RestExceptionHandler {
 
+    @Autowired
+    private Error error;
+
     static Map<String,String> errorMap;
 
     /**
@@ -50,10 +53,13 @@ public class RestExceptionHandler {
     @ResponseBody
     public ResponseEntity<com.ingenico.ts.utils.Error> handleApplictionException(final AccountException e) {
 
-        com.ingenico.ts.utils.Error err = new Error();
-        err.setMessage(e.getErrorMessage());
-        err.setCode(e.getErrorCode());
-        return new ResponseEntity<com.ingenico.ts.utils.Error>(err, HttpStatus.BAD_REQUEST);
+        error.setMessage(e.getErrorMessage());
+        error.setCode(e.getErrorCode());
+
+        if(e.getErrorCode().equals(Constants.ACCOUNT_NOT_FOUND)){
+            return new ResponseEntity<Error>(error, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<com.ingenico.ts.utils.Error>(error, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -65,19 +71,17 @@ public class RestExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
     public ResponseEntity<Error> handleInvalidMethodArgumentException(final MethodArgumentNotValidException e) {
-
-        Error err = new Error();
-        final Optional<Error> details = e.getBindingResult()
+        final Optional<Error> err = e.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(x -> {
-                   err.setCode(x.getDefaultMessage());
-                   err.setMessage(errorMap.get(x.getDefaultMessage()));
-                    return err;
+                    error.setCode(x.getDefaultMessage());
+                    error.setMessage(errorMap.get(x.getDefaultMessage()));
+                    return error;
                 }).findAny();
 //        LOGGER.info("HTTP 400 Bad Request", e);
 
-        return new ResponseEntity<Error>(details.get(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Error>(err.get(), HttpStatus.BAD_REQUEST);
     }
 
 
@@ -90,10 +94,8 @@ public class RestExceptionHandler {
     @ResponseBody
     public ResponseEntity<Error> handleConstraintException(final ConstraintViolationException e) {
 
-
         final String str = e.getConstraintViolations().stream().map(m ->m.getMessage() +":"+m.getPropertyPath()).collect(Collectors.joining(";"));
-        com.ingenico.ts.utils.Error err = new Error();
-        err.setMessage(str);
-        return new ResponseEntity<com.ingenico.ts.utils.Error>(err, HttpStatus.BAD_REQUEST);
+        error.setMessage(str);
+        return new ResponseEntity<com.ingenico.ts.utils.Error>(error, HttpStatus.BAD_REQUEST);
     }
 }

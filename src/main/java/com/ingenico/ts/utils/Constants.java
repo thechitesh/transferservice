@@ -29,4 +29,7 @@ public final class Constants {
     public static final String ID_IN_PATH_PARAM_SHOULD_BE_NUMERIC = "TS_0012";
 
 
+    public static final String ACCOUNT_NOT_FOUND = "TS_0013";
+
+
 }

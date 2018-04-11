@@ -61,8 +61,10 @@ public class AccountService {
      * @param id - resource id or account id.
      * @return - Account Resource
      */
-    public Account getAccount(final int id){
-        return accountRepository.findOne(id);
+    public Account getAccount(final int id) throws AccountException {
+        Optional<Account> account = Optional.ofNullable(accountRepository.findOne(id));
+        account.orElseThrow(()->new AccountException("Account Not Found",Constants.ACCOUNT_NOT_FOUND));
+        return account.get();
     }
 
 
