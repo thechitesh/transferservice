@@ -21,14 +21,10 @@ import javax.validation.Valid;
 @RequestMapping("/initiatetransfer")
 public class TransferRestService {
 
-    private AccountService accountService;
-    private Validator validator;
-
     @Autowired
-    private TransferRestService(final AccountService accountService, final Validator validator){
-        this.accountService = accountService;
-        this.validator = validator;
-    }
+    private AccountService accountService;
+    @Autowired
+    private Validator validator;
 
     /**
      * Method takes the valid transfer request resource and forwards it to the servie for execution
@@ -38,7 +34,8 @@ public class TransferRestService {
      */
     @PostMapping(value = "/v1")
     public ResponseEntity initiateTransfer(@RequestBody @Valid Transfer transfer) throws AccountException {
-        validator.validateTransferObject(transfer);
+
+        validator.validateTransferObjectAccountNames(transfer);
         accountService.executeTransfer(transfer);
         ResponseWrapper responseWrapper = new ResponseWrapper();
         responseWrapper.setTransferStatus(TransferStatus.EXECUTED);

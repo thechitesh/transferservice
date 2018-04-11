@@ -20,8 +20,12 @@ import java.util.Optional;
 public class Validator {
 
 
-    public void validateId(String id) throws AccountException {
-        System.out.println("Here");
+    /**
+     * Method validate the ID in path param to be numeric
+     * @param id - resource id
+     * @throws AccountException - application exception
+     */
+    public void validateId(final String id) throws AccountException {
         if (!StringUtils.isNumeric(id)) {
             throw new AccountException("Invalid Id is supplied", Constants.ID_IN_PATH_PARAM_SHOULD_BE_NUMERIC);
         }
@@ -33,7 +37,7 @@ public class Validator {
      * @param transfer - transfere request resource
      * @throws AccountException - application exception
      */
-    public void validateTransferObject(final Transfer transfer) throws AccountException {
+    public void validateTransferObjectAccountNames(final Transfer transfer) throws AccountException {
         if(transfer.getInitiatingAccountName().equalsIgnoreCase(transfer.getCounterPartyAccountName())){
             throw new AccountException("Transfer can be initiated between different accounts", Constants.TRANSFER_ACCOUNTS_SHOULD_BE_DIFFERENT);
         }
@@ -43,14 +47,14 @@ public class Validator {
      * Method validates if the initiating party account has sufficient balance more than amount to transfer,
      * otherwise it will throw exception
      *
-     * @param account         - inititing party account
+     * @param account         - initiating party account
      * @param amountToTranfer - amount to be transferred
      * @throws AccountException - application exception
      */
-    public void validateAccountBalanceForTransfer(Optional<Account> account, BigDecimal amountToTranfer) throws AccountException {
+    public void validateAccountBalanceForTransfer(final Account account, final BigDecimal amountToTranfer) throws AccountException {
 
-        if (account.get().getBalance().compareTo(amountToTranfer) < 0) {
-            throw new AccountException("Request transfer amount is more thant the available balance", Constants.TRANSFER_AMOUNT_EXCEEDS_AVAILABLE_BALANCE);
+        if (account.getBalance().compareTo(amountToTranfer) < 0) {
+            throw new AccountException("Balance not sufficient for transfer", Constants.TRANSFER_AMOUNT_EXCEEDS_AVAILABLE_BALANCE);
         }
 
     }

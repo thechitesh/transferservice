@@ -21,14 +21,11 @@ import java.util.Optional;
 @Service
 public class AccountService {
 
+    @Autowired
     private AccountRepository accountRepository;
+    @Autowired
     private Validator validator;
 
-    @Autowired
-    private AccountService(final AccountRepository accountRepository, final Validator validator){
-        this.accountRepository = accountRepository;
-        this.validator = validator;
-    }
 
     /**
      * Method used to create an Account in database.
@@ -81,7 +78,7 @@ public class AccountService {
 
         initiatingPartyAccount.orElseThrow(() -> new AccountException("Initiating Party Account Not Found",Constants.INITIATING_PARTY_ACCOUNT_NOT_FOUND));
 
-        validator.validateAccountBalanceForTransfer(initiatingPartyAccount, transfer.getAmount());
+        validator.validateAccountBalanceForTransfer(initiatingPartyAccount.get(), transfer.getAmount());
 
         Optional<Account> countPartyAccount = Optional.ofNullable(accountRepository.findAccountByName(transfer.getCounterPartyAccountName()));
         countPartyAccount.orElseThrow(() -> new AccountException("Counter Party Account Not Found",Constants.COUNTER_PARTY_ACCOUNT_NOT_FOUND));
