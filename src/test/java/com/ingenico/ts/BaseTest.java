@@ -29,11 +29,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ContextConfiguration(classes = {TransferServiceApplication.class})
 @TestExecutionListeners(listeners = {DirtiesContextTestExecutionListener.class})
 @Rollback
-public class BaseTest extends AbstractJUnit4SpringContextTests {
+public abstract class BaseTest extends AbstractJUnit4SpringContextTests {
 
-    private static final String TRANSFER_URI = "/initiatetransfer/v1";
+    private static final String TRANSFER_URI = "/v1/initiatetransfer";
 
-    private static final String ACCOUNTS_URI = "/accounts/v1";
+    private static final String ACCOUNTS_URI = "/v1/accounts";
 
 
     protected MockMvc mockMvc;

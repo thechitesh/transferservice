@@ -29,7 +29,7 @@ public class RestServicesIntegrationTest extends BaseTest{
         final ResultActions response = addAccount(account);
         response.andExpect(status().isCreated());
         final ReturnedResult retResult = extractDtoFromMockResult(response.andReturn(), ReturnedResult.class);
-        System.out.println("ID created: "+retResult.getResponseWrapper().getId());
+
         assertEquals(new Integer(1), retResult.getResponseWrapper().getId());
     }
 

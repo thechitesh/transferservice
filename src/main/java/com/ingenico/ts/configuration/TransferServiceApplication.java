@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Spring Boot Transfer Service Application Class
@@ -15,6 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "com.ingenico.ts")
 @EnableJpaRepositories("com.ingenico.ts.repository")
 @EntityScan("com.ingenico.ts.resources")
+@EnableTransactionManagement
 public class TransferServiceApplication {
 
 

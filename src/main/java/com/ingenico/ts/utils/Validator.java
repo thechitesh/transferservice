@@ -39,7 +39,7 @@ public class Validator {
      */
     public void validateTransferObjectAccountNames(final Transfer transfer) throws AccountException {
         if(transfer.getInitiatingAccountName().equalsIgnoreCase(transfer.getCounterPartyAccountName())){
-            throw new AccountException("Transfer can be initiated between different accounts", Constants.TRANSFER_ACCOUNTS_SHOULD_BE_DIFFERENT);
+            throw new AccountException("Transfer can not be initiated between same accounts", Constants.TRANSFER_ACCOUNTS_SHOULD_BE_DIFFERENT);
         }
     }
 

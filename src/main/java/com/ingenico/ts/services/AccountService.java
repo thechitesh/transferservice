@@ -9,6 +9,9 @@ import com.ingenico.ts.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,14 +37,16 @@ public class AccountService {
      * @return - id of the created resource
      * @throws AccountException - application exception in case of failure
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED,propagation = Propagation.REQUIRED,
+            readOnly = false,rollbackFor = Exception.class)
     public int createAccount(final Account account) throws AccountException {
 
         try {
-
             return accountRepository.save(account).getId();
         }catch (DataIntegrityViolationException integrityViolation){
             throw new AccountException("Account name already present", Constants.ACCOUNT_NAME_ALREADY_PRESENT);
         }
+
 
     }
 
@@ -73,6 +78,8 @@ public class AccountService {
      * @param transfer - dto holds the transfer request parameters
      * @throws AccountException - application exception in case of failure
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED,propagation = Propagation.REQUIRED,
+            readOnly = false,rollbackFor = Exception.class)
     public void executeTransfer(Transfer transfer) throws AccountException {
 
         Optional<Account> initiatingPartyAccount = Optional.ofNullable(accountRepository.findAccountByName(transfer.getInitiatingAccountName()));

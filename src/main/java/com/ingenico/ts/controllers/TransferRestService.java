@@ -7,6 +7,7 @@ import com.ingenico.ts.resources.TransferStatus;
 import com.ingenico.ts.services.AccountService;
 import com.ingenico.ts.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ import javax.validation.Valid;
  * @author chitesh
  */
 @RestController
-@RequestMapping("/initiatetransfer")
+@RequestMapping("/v1/initiatetransfer")
 public class TransferRestService {
 
     @Autowired
@@ -32,7 +33,7 @@ public class TransferRestService {
      * @return - execution response
      * @throws AccountException - application exception
      */
-    @PostMapping(value = "/v1")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity initiateTransfer(@RequestBody @Valid Transfer transfer) throws AccountException {
 
         validator.validateTransferObjectAccountNames(transfer);

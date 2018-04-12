@@ -5,7 +5,10 @@ import com.ingenico.ts.exceptions.AccountException;
 import com.ingenico.ts.resources.ResponseWrapper;
 import com.ingenico.ts.services.AccountService;
 import com.ingenico.ts.utils.Validator;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,7 +21,7 @@ import java.net.URI;
  * It provides creation of the account and getting details of exisiting account in database.
  */
 @RestController
-@RequestMapping("/accounts/v1")
+@RequestMapping("/v1/accounts")
 public class AccountRestService {
 
     @Autowired
@@ -33,7 +36,7 @@ public class AccountRestService {
      * Method provides list of all available account
      * @return - list of accounts
      */
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getAllAccounts(){
         return ResponseEntity.ok(accountService.getAllAccounts());
     }
@@ -44,8 +47,8 @@ public class AccountRestService {
      * @return -Account resource
      * @throws AccountException - application exception
      */
-    @GetMapping(value = "/{id}")
-    public ResponseEntity getAccount(@PathVariable("id") final String id) throws AccountException {
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getAccountById(@PathVariable("id") final String id) throws AccountException {
         validator.validateId(id);
         return ResponseEntity.ok(accountService.getAccount(Integer.parseInt(id)));
     }
@@ -57,10 +60,10 @@ public class AccountRestService {
      * @return - id of the created resource
      * @throws AccountException - application exception
      */
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createAcocunt(@RequestBody @Valid  Account account) throws AccountException {
+
         final int id =accountService.createAccount(account);
-        accountService.getAllAccounts();
         ResponseWrapper responseWrapper  = new ResponseWrapper();
         responseWrapper.setId(id);
         URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(id).toUri();
