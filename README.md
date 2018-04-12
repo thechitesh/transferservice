@@ -64,26 +64,24 @@ to business rules during build phase.
 1. Unit test Coverage
 2. Release Version of build
 
-### Build
-
-Project uses maven as build and dependency management tool.
-
-1) For build : `mvn clean install`
-2) For test : `mvn test`
-
 
 ### Version Management
 Git is used for version control system.
 
-### Deployment
-The transfer service application, when build by maven gives a jar file which has embedded tomcat in it.
-The jar file can be run from any machine which has the java installed.
 
-The application can be started with following commands.
+### Build And RUN
 
-`java -jar transferservice-1.0-SNAPSHOT.jar`
+**On Windows Operating System**
 
-Once the application start,the Rest end points can be accessed at following URL 
+To build and run the application, you need to have java and maven installed on the machine.
+Then, follow the below steps.
+1. git clone https://github.com/thechitesh/transferservice.git
+2. cd transferservice
+3. mvn clean install
+4. cd target
+5. java -jar transferservice-1.0-SNAPSHOT.jar 
+
+Once the application start,the webservice endpoints can be accessed at following URL 
 
 `http://localhost:9080/transferapplication/v1/accounts`
 
