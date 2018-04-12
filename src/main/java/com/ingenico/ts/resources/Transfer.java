@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  */
 public class Transfer {
 
-    @NotNull(message = "Initiating Party Account Name can not empty")
+    @NotNull(message = Constants.INITIATING_PARTY_ACCOUNT_SHOULD_BE_FILLED)
     private String initiatingAccountName;
 
     @Range(min=0, max=99999,message = Constants.TRANSFER_AMOUNT_SHOULD_BE_GREATE_THAN_ZERO)

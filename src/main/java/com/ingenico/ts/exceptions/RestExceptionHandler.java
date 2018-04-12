@@ -45,6 +45,7 @@ public class RestExceptionHandler {
         errorMap.put(Constants.BALANCE_NOT_NULL,"Balance can not be null");
         errorMap.put(Constants.BALANCE_SHOULE_SHOULD_BE_POSITIVE,"Balance should be a positive number");
 
+
     }
 
 
@@ -64,6 +65,10 @@ public class RestExceptionHandler {
         )||e.getErrorCode().equalsIgnoreCase(Constants.COUNTER_PARTY_ACCOUNT_NOT_FOUND)){
             LOGGER.info("HTTP 404 Resource Not found", e);
             return new ResponseEntity<Error>(error, HttpStatus.NOT_FOUND);
+        }
+        else if(e.getErrorCode().equals(Constants.TRANSFER_AMOUNT_EXCEEDS_AVAILABLE_BALANCE)){
+            LOGGER.info("HTTP 403 request is forbidden due to insufficient balance", e);
+            return new ResponseEntity<Error>(error, HttpStatus.FORBIDDEN);
         }
         else if(e.getErrorCode().equals(Constants.ACCOUNT_NAME_ALREADY_PRESENT)){
             LOGGER.info("HTTP 409 with the name, already present", e);

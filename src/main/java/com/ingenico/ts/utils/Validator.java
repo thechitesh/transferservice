@@ -43,6 +43,7 @@ public class Validator {
         }
     }
 
+
     /**
      * Method validates if the initiating party account has sufficient balance more than amount to transfer,
      * otherwise it will throw exception
