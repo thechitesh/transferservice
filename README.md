@@ -111,7 +111,7 @@ way to test those endpoints.
 ## Error Codes and Text 
 
 |Error Code | HTTP Status Code | Error Message  |
-| --------  |:-------------:| -----:|
+| --------  |:-------------:| -----|
 |TS_001 |400|   Balance can not be null
 |TS_002	|400|   Balance should be a positive number
 |TS_003	|400|   Account Name can not empty
