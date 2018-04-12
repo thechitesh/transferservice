@@ -8,6 +8,7 @@ import com.ingenico.ts.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -20,14 +21,12 @@ import java.net.URI;
 @RequestMapping("/accounts/v1")
 public class AccountRestService {
 
+    @Autowired
     private AccountService accountService;
-    private Validator validator;
 
     @Autowired
-    private AccountRestService(final AccountService accountService, final Validator validator){
-        this.accountService = accountService;
-        this.validator = validator;
-    }
+    private Validator validator;
+
 
 
     /**
@@ -61,9 +60,11 @@ public class AccountRestService {
     @PostMapping
     public ResponseEntity createAcocunt(@RequestBody @Valid  Account account) throws AccountException {
         final int id =accountService.createAccount(account);
+        accountService.getAllAccounts();
         ResponseWrapper responseWrapper  = new ResponseWrapper();
         responseWrapper.setId(id);
-        return ResponseEntity.created(URI.create("/"+id)).body(responseWrapper);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(id).toUri();
+        return ResponseEntity.created(location).body(responseWrapper);
     }
 
 

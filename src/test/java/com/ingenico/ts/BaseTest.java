@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -41,26 +42,24 @@ public class BaseTest extends AbstractJUnit4SpringContextTests {
     @Autowired
     protected WebApplicationContext context;
 
+
+    public final String INITIATING_ACCOUNT = "foo";
+    public final String RECEIVING_ACCOUNT = "bar";
+
+
     @Before
     public void beforeClass() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
-//                .addFilters(springSecurityFilterChain)
                 .build();
-
 
     }
 
 
     private ResultActions performGetOperation(String uri,
-//                                              final HttpHeaders headers,
-                                              final String... uriParams) throws Exception {
+                                              final String uriParams) throws Exception {
 
-        uri = uri + "/" + uriParams[0];
-        System.out.println("URI " + uri);
         return mockMvc.perform(
-
-                get(uri, (Object[]) uriParams)
-//                        .headers(headers)
+                get( uri + "/" + uriParams)
         );
     }
 

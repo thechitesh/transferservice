@@ -50,6 +50,7 @@ public class AccountService {
      * @return - list of Accounts
      */
     public List<Account> getAllAccounts(){
+
         List<Account> accounts = new ArrayList<>();
         accountRepository.findAll().forEach(accounts::add);
         return accounts;

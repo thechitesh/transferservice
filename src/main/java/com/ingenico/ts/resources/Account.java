@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 /**
  * Account Resource for the Transfer Service Application
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Entity
 public class Account {
 
