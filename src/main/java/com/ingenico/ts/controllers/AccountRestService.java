@@ -18,7 +18,9 @@ import java.net.URI;
 
 /**
  * Class exposes Restful web service for Accounts resource.
- * It provides creation of the account and getting details of exisiting account in database.
+ * It provides creation of the account and getting details of existing account in database.
+ *
+ * @author chitesh
  */
 @RestController
 @RequestMapping("/v1/accounts")

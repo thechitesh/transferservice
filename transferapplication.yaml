@@ -15,7 +15,7 @@ tags:
 schemes:
 - "http"
 paths:
-  /accounts/v1:
+  /v1/accounts:
     post:
       tags:
       - "accounts"
@@ -50,7 +50,7 @@ paths:
 
 
 
-  /accounts/v1/{id}:
+  /v1/accounts/{id}:
     get:
       tags:
       - "accounts"
@@ -81,7 +81,7 @@ paths:
             $ref: '#/definitions/Error'
 
 
-  /initiatetransfer/v1:
+  /v1/initiatetransfer:
     post:
       tags:
       - "transfer"
