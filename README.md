@@ -110,8 +110,21 @@ way to test those endpoints.
 
 ## Error Codes and Text 
 
-
 |Error Code | HTTP Status Code | Error Message  |
 | --------  |:-------------:| -----:|
-|TS_001    |	400	| Balance can not be null
+|TS_001 |400|   Balance can not be null
+|TS_002	|400|   Balance should be a positive number
+|TS_003	|400|   Account Name can not empty
+|TS_004 |409|	Account name already present
+|TS_005	|400|	Transfer Amount should be greater than zero
+|TS_006	|403|	Balance not sufficient for transfer
+|TS_008	|404|	Initiating Party Account Not Found
+|TS_009	|404|	Initiating Party Account Name can not empty
+|TS_010	|404|	Counter Party Account Not Found
+|TS_011	|400|	Counter Party Account Name can not be empty
+|TS_012	|400|	Invalid Id is supplied
+|TS_013	|404|	Account Not Found
+|TS_014	|400|	Transfer can not be initiated between same accounts
+
+
  
