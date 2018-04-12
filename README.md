@@ -24,7 +24,7 @@ Accont Resource
 2. Two accounts with same name can not exists
 3. Name can not be null/empty
 4. Balance can be 0 or decimal
-5  Balance can not be negative
+5. Balance can not be negative
 6. Starting account balance can be in a range of 0  to 99999
 
 Transfer
@@ -47,10 +47,6 @@ The limitation is that all data persists till the server is running. Upon restar
 database is wiped out.
 The application is build as per REST specification and I have tried to use appropriate HTTP method for the service.
 On validation failure the appropriate HTTP status codes are mapped.
-
-HTTP Operation Used : GET/POST
-
-HTTP Status Code User : 200,201,400,404,409
 
 The project is having sufficient Unit Test as well Integration Test to verify compliance 
 to business rules during build phase.
@@ -90,6 +86,7 @@ The application can be started with following commands.
 Once the application start,the Rest end points can be accessed at following URL 
 
 `http://localhost:9080/transferapplication/v1/accounts`
+
 `http://localhost:9080/transferapplication/v1/initiatetransfer` 
 
 
@@ -100,15 +97,20 @@ Once the application start,the Rest end points can be accessed at following URL
 ### Swagger UI
 
 
-The Rest specification for the service is defined in the **_transferapplication.yaml_** file. This file can be opened into Swagger Editor.
+The Rest specification for the service is defined in the **_transferapplication.yaml_** file. This file can be opened into Swagger Editor, it gives a good
+insight of the specification on which the services a build.
 
 Also, Spring Boot Swagger support is added in the project. The following URL
-will give the details of available REST service exposed by the applicaiton and also it provides a 
-way to test those endpoints.
+will give the details of available REST service exposed by the application.
+Swagger UI integration is also good for testing the services. 
 
 `http://localhost:9080/transferapplication/swagger-ui.html` 
 
 ## Error Codes and Text 
+
+In case of failure, the error json is send to the user, which has a code and
+human readable text. Below are the tabular representation of error code and the text.
+These error codes are mapped with the approporiate HTTP Status Codes.
 
 |Error Code | HTTP Status Code | Error Message  |
 | --------  |:-------------:| -----|
