@@ -127,6 +127,7 @@ These error codes are mapped with the approporiate HTTP Status Codes.
 |TS_012	|400|	Invalid Id is supplied
 |TS_013	|404|	Account Not Found
 |TS_014	|400|	Transfer can not be initiated between same accounts
+|TS_015	|403|	Balance after trasaction exceeds limit of Balance limit of 99999
 
 
  
