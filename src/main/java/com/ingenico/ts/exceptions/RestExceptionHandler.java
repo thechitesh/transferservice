@@ -38,12 +38,12 @@ public class RestExceptionHandler {
      */
     static{
        errorMap = new HashMap<>();
-        errorMap.put(Constants.TRANSFER_AMOUNT_SHOULD_BE_GREATE_THAN_ZERO,"Transfer Amount should be greater than zero");
+        errorMap.put(Constants.TRANSFER_AMOUNT_SHOULD_BE_GREATE_THAN_ZERO,"Transfer Amount should be in a range of 0 to 99999");
         errorMap.put(Constants.INITIATING_PARTY_ACCOUNT_SHOULD_BE_FILLED,"Initiating Party Account Name can not empty");
         errorMap.put(Constants.COUNTER_PARTY_ACCOUNT_SHOULD_BE_FILLED,"Counter Party Account Name can not be empty");
         errorMap.put(Constants.ACCOUNT_NAME_SHOULD_BE_FILLED,"Account Name can not empty");
         errorMap.put(Constants.BALANCE_NOT_NULL,"Balance can not be null");
-        errorMap.put(Constants.BALANCE_SHOULE_SHOULD_BE_POSITIVE,"Balance should be a positive number");
+        errorMap.put(Constants.BALANCE_SHOULE_SHOULD_BE_POSITIVE,"Balance should be a in a range of 0 to 99999");
 
 
     }
@@ -73,6 +73,10 @@ public class RestExceptionHandler {
         else if(e.getErrorCode().equals(Constants.ACCOUNT_NAME_ALREADY_PRESENT)){
             LOGGER.info("HTTP 409 with the name, already present", e);
             return new ResponseEntity<Error>(error, HttpStatus.CONFLICT);
+        }
+        else if(e.getErrorCode().equals(Constants.BALANCE_AFTER_TRANSACTION_EXCEEDS_ACCOUNT_LIMIT)){
+            LOGGER.info("HTTP 403 request is forbidden as account overshoot balance after trx, max limit allowed : 99999", e);
+            return new ResponseEntity<com.ingenico.ts.utils.Error>(error, HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<com.ingenico.ts.utils.Error>(error, HttpStatus.BAD_REQUEST);
     }

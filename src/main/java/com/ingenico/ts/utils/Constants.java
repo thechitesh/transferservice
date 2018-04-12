@@ -1,5 +1,7 @@
 package com.ingenico.ts.utils;
 
+import java.math.BigDecimal;
+
 /**
  * Class holds the application constants
  *
@@ -9,6 +11,8 @@ public final class Constants {
 
     private Constants(){}
 
+
+    public static final BigDecimal MAX_LIMIT = new BigDecimal(99999);
     public static final String BALANCE_NOT_NULL = "TS_001";
     public static final String BALANCE_SHOULE_SHOULD_BE_POSITIVE = "TS_002";
     public static final String ACCOUNT_NAME_SHOULD_BE_FILLED = "TS_003";
@@ -22,6 +26,7 @@ public final class Constants {
     public static final String ID_IN_PATH_PARAM_SHOULD_BE_NUMERIC = "TS_012";
     public static final String ACCOUNT_NOT_FOUND = "TS_013";
     public static final String TRANSFER_ACCOUNTS_SHOULD_BE_DIFFERENT = "TS_014";
+    public static final String BALANCE_AFTER_TRANSACTION_EXCEEDS_ACCOUNT_LIMIT = "TS_015";
 
 
 }

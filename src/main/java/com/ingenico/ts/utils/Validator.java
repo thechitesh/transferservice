@@ -58,6 +58,20 @@ public class Validator {
             throw new AccountException("Balance not sufficient for transfer", Constants.TRANSFER_AMOUNT_EXCEEDS_AVAILABLE_BALANCE);
         }
 
+
+    }
+
+    /**
+     * Validate account for holding balance limit
+     * @param account - Account resource
+     * @throws AccountException - application exception
+     */
+    public void validateCunterPartyAccountBalance(final Account account) throws AccountException {
+        if(Constants.MAX_LIMIT.compareTo(account.getBalance())<0){
+            throw new AccountException("Balance after trasaction exceeds limit of Balance limit of 99999",
+                    Constants.BALANCE_AFTER_TRANSACTION_EXCEEDS_ACCOUNT_LIMIT);
+        }
+
     }
 
 

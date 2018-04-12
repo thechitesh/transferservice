@@ -91,6 +91,7 @@ public class AccountService {
         Optional<Account> countPartyAccount = Optional.ofNullable(accountRepository.findAccountByName(transfer.getCounterPartyAccountName()));
         countPartyAccount.orElseThrow(() -> new AccountException("Counter Party Account Not Found",Constants.COUNTER_PARTY_ACCOUNT_NOT_FOUND));
         countPartyAccount.get().setBalance(countPartyAccount.get().getBalance().add(transfer.getAmount()));
+        validator.validateCunterPartyAccountBalance(countPartyAccount.get());
         accountRepository.save(countPartyAccount.get());
         initiatingPartyAccount.get().setBalance(initiatingPartyAccount.get().getBalance().subtract(transfer.getAmount()));
         accountRepository.save(initiatingPartyAccount.get());
