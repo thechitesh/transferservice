@@ -1,6 +1,7 @@
 package com.ingenico.ts.resources;
 
 import com.ingenico.ts.utils.Constants;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
@@ -12,13 +13,13 @@ import java.math.BigDecimal;
  */
 public class Transfer {
 
-    @NotNull(message = Constants.INITIATING_PARTY_ACCOUNT_SHOULD_BE_FILLED)
+    @NotEmpty(message = Constants.INITIATING_PARTY_ACCOUNT_SHOULD_BE_FILLED)
     private String initiatingAccountName;
 
     @Range(min=0, max=99999,message = Constants.TRANSFER_AMOUNT_SHOULD_BE_GREATE_THAN_ZERO)
     private BigDecimal amount;
 
-    @NotNull(message = "Counter Party Account Name can not be empty")
+    @NotEmpty(message = Constants.COUNTER_PARTY_ACCOUNT_SHOULD_BE_FILLED)
     private String counterPartyAccountName;
 
     public String getInitiatingAccountName() {

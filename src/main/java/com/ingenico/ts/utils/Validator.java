@@ -19,16 +19,28 @@ import java.util.Optional;
 @Component
 public class Validator {
 
+    /**
+     * Method to throw the application exception instance
+     * @param text - error text
+     * @param code - error code
+     * @throws AccountException - application exception
+     */
+    private final void handleException(final String text, final String code) throws AccountException {
+        throw new AccountException(text, code);
+    }
+
 
     /**
      * Method validate the ID in path param to be numeric
      * @param id - resource id
      * @throws AccountException - application exception
      */
-    public void validateId(final String id) throws AccountException {
+    public final void validateId(final String id) throws AccountException {
+
         if (!StringUtils.isNumeric(id)) {
-            throw new AccountException("Invalid Id is supplied", Constants.ID_IN_PATH_PARAM_SHOULD_BE_NUMERIC);
+            handleException("Invalid Id is supplied", Constants.ID_IN_PATH_PARAM_SHOULD_BE_NUMERIC);
         }
+
 
     }
 
@@ -37,10 +49,13 @@ public class Validator {
      * @param transfer - transfere request resource
      * @throws AccountException - application exception
      */
-    public void validateTransferObjectAccountNames(final Transfer transfer) throws AccountException {
+    public final void validateTransferObjectAccountNames(final Transfer transfer) throws AccountException {
+
         if(transfer.getInitiatingAccountName().equalsIgnoreCase(transfer.getCounterPartyAccountName())){
-            throw new AccountException("Transfer can not be initiated between same accounts", Constants.TRANSFER_ACCOUNTS_SHOULD_BE_DIFFERENT);
+            handleException("Transfer can not be initiated between same accounts", Constants.TRANSFER_ACCOUNTS_SHOULD_BE_DIFFERENT);
         }
+
+
     }
 
 
@@ -52,10 +67,10 @@ public class Validator {
      * @param amountToTranfer - amount to be transferred
      * @throws AccountException - application exception
      */
-    public void validateAccountBalanceForTransfer(final Account account, final BigDecimal amountToTranfer) throws AccountException {
+    public final void validateAccountBalanceForTransfer(final Account account, final BigDecimal amountToTranfer) throws AccountException {
 
         if (account.getBalance().compareTo(amountToTranfer) < 0) {
-            throw new AccountException("Balance not sufficient for transfer", Constants.TRANSFER_AMOUNT_EXCEEDS_AVAILABLE_BALANCE);
+            handleException("Balance not sufficient for transfer", Constants.TRANSFER_AMOUNT_EXCEEDS_AVAILABLE_BALANCE);
         }
 
 
@@ -66,9 +81,9 @@ public class Validator {
      * @param account - Account resource
      * @throws AccountException - application exception
      */
-    public void validateCunterPartyAccountBalance(final Account account) throws AccountException {
+    public final void validateCunterPartyAccountBalance(final Account account) throws AccountException {
         if(Constants.MAX_LIMIT.compareTo(account.getBalance())<0){
-            throw new AccountException("Balance after trasaction exceeds limit of Balance limit of 99999",
+            handleException("Balance after trasaction exceeds limit of Balance limit of 99999",
                     Constants.BALANCE_AFTER_TRANSACTION_EXCEEDS_ACCOUNT_LIMIT);
         }
 

@@ -2,6 +2,8 @@ package com.ingenico.ts.resources;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ingenico.ts.utils.Constants;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -22,7 +24,7 @@ public class Account {
     private int id;
 
     @Column(unique = true)
-    @NotNull(message = Constants.ACCOUNT_NAME_SHOULD_BE_FILLED)
+    @NotEmpty(message = Constants.ACCOUNT_NAME_SHOULD_BE_FILLED)
     private String name;
 
     @NotNull(message = Constants.BALANCE_NOT_NULL)
