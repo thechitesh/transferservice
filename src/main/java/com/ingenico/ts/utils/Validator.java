@@ -5,10 +5,9 @@ import com.ingenico.ts.resources.Account;
 import com.ingenico.ts.resources.Transfer;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.util.function.BiPredicate;
 
 /**
  * Validation class used to validate the parameter
@@ -21,6 +20,7 @@ public class Validator {
 
     /**
      * Method to throw the application exception instance
+     *
      * @param text - error text
      * @param code - error code
      * @throws AccountException - application exception
@@ -32,6 +32,7 @@ public class Validator {
 
     /**
      * Method validate the ID in path param to be numeric
+     *
      * @param id - resource id
      * @throws AccountException - application exception
      */
@@ -46,15 +47,17 @@ public class Validator {
 
     /**
      * Method used to validate that the accounts involved in transfer should be different.
+     *
      * @param transfer - transfere request resource
      * @throws AccountException - application exception
      */
     public final void validateTransferObjectAccountNames(final Transfer transfer) throws AccountException {
 
-        if(transfer.getInitiatingAccountName().equalsIgnoreCase(transfer.getCounterPartyAccountName())){
+        BiPredicate biPredicate = (t, u) -> ((String) t).equalsIgnoreCase((String) u);
+
+        if (biPredicate.test(transfer.getInitiatingAccountName(), transfer.getCounterPartyAccountName())) {
             handleException("Transfer can not be initiated between same accounts", Constants.TRANSFER_ACCOUNTS_SHOULD_BE_DIFFERENT);
         }
-
 
     }
 
@@ -78,11 +81,12 @@ public class Validator {
 
     /**
      * Validate account for holding balance limit
+     *
      * @param account - Account resource
      * @throws AccountException - application exception
      */
     public final void validateCunterPartyAccountBalance(final Account account) throws AccountException {
-        if(Constants.MAX_LIMIT.compareTo(account.getBalance())<0){
+        if (Constants.MAX_LIMIT.compareTo(account.getBalance()) < 0) {
             handleException("Balance after trasaction exceeds limit of Balance limit of 99999",
                     Constants.BALANCE_AFTER_TRANSACTION_EXCEEDS_ACCOUNT_LIMIT);
         }
